@@ -54,11 +54,11 @@ export function Dashboard() {
       </header>
 
       <div className="rise space-y-4">
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-5">
           <Panel
             eyebrow="Movement"
             title="Daily steps"
-            className="lg:col-span-2"
+            className="lg:col-span-3"
             aside={
               <Stat
                 value={Math.round(mean(stepValues)).toLocaleString("en-IN")}
@@ -72,6 +72,7 @@ export function Dashboard() {
           <Panel
             eyebrow="Recovery"
             title="Heart rate variability"
+            className="lg:col-span-2"
             aside={
               <span className="font-mono text-[10px] uppercase tracking-wider text-ink-faint">
                 daily average
@@ -96,6 +97,7 @@ export function Dashboard() {
                 value: d.hrvMs!,
               }))}
               unit="ms"
+              stackDateLabels
             />
             <ol className="mt-4 space-y-1.5 border-t border-line pt-3">
               {hrvSeries

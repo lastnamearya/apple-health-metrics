@@ -22,7 +22,8 @@ export function TrendChart({
   baselineLabel,
   unit,
   color = "var(--color-flare)",
-  height = 172,
+  height,
+  stackDateLabels = false,
 }: {
   points: TrendPoint[];
   baseline?: number;
@@ -30,7 +31,12 @@ export function TrendChart({
   unit: string;
   color?: string;
   height?: number;
+  /** Splits a "3 Aug" label onto two lines (day / month) so it takes less
+   *  horizontal room — enough that every date can fit without skipping any. */
+  stackDateLabels?: boolean;
 }) {
+  const resolvedHeight = height ?? (stackDateLabels ? 188 : 172);
+  const axisHeight = stackDateLabels ? 48 : 36;
   const values = points.map((p) => p.value);
   const lo = Math.min(...values, baseline ?? Infinity);
   const hi = Math.max(...values, baseline ?? -Infinity);
@@ -38,7 +44,7 @@ export function TrendChart({
   const gradientId = `fill-${unit.replace(/\W/g, "")}`;
 
   return (
-    <div style={{ height }} className="w-full">
+    <div style={{ height: resolvedHeight }} className="w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={points} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
           <defs>
@@ -51,10 +57,9 @@ export function TrendChart({
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            interval="preserveStartEnd"
-            minTickGap={12}
+            interval={0}
             tickMargin={18}
-            height={36}
+            height={axisHeight}
             tick={(props) => {
               const { x, y, payload, index } = props;
               // Nudge only the first/last labels inward from their point —
@@ -64,14 +69,32 @@ export function TrendChart({
               const isFirst = index === 0;
               const isLast = index === points.length - 1;
               const dx = isFirst ? 10 : isLast ? -10 : 0;
+              const tickX = Number(x) + dx;
+              const anchor = isFirst ? "start" : isLast ? "end" : "middle";
+
+              if (stackDateLabels) {
+                const [day, ...monthParts] = String(payload.value).split(" ");
+                const month = monthParts.join(" ");
+                return (
+                  <text
+                    x={tickX}
+                    y={y}
+                    textAnchor={anchor}
+                    fontSize={10}
+                    fill="var(--color-ink-faint)"
+                  >
+                    <tspan x={tickX} dy="0.9em">
+                      {day}
+                    </tspan>
+                    <tspan x={tickX} dy="1.15em">
+                      {month}
+                    </tspan>
+                  </text>
+                );
+              }
+
               return (
-                <Text
-                  x={Number(x) + dx}
-                  y={y}
-                  textAnchor={isFirst ? "start" : isLast ? "end" : "middle"}
-                  fontSize={10}
-                  fill="var(--color-ink-faint)"
-                >
+                <Text x={tickX} y={y} textAnchor={anchor} fontSize={10} fill="var(--color-ink-faint)">
                   {payload.value}
                 </Text>
               );
