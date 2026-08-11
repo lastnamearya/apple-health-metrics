@@ -1,18 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import seed from "@/data/health.json";
-import { DataIntake } from "./data-intake";
 import { SleepPanel } from "./sleep-panel";
 import { StepsChart } from "./steps-chart";
-import { StreakGrid } from "./streak-grid";
 import { TrendChart } from "./trend-chart";
 import { Delta, Panel, Stat } from "./ui";
 import { BASELINES, mean, shortDate, todayIso, trendDelta } from "@/lib/metrics";
-import { clearDays, exportDays, loadDays, mergeDays, saveDays } from "@/lib/store";
-import type { DayRecord, HealthDataset } from "@/lib/types";
+import type { HealthDataset } from "@/lib/types";
 
-const SEED = (seed as HealthDataset).days;
+const DAYS = (seed as HealthDataset).days;
 
 /**
  * Display formatting only. hrvMs is rounded at parse time, but manual entry
@@ -24,38 +20,13 @@ function formatHrv(value: number | null | undefined): string {
 }
 
 export function Dashboard() {
-  const [days, setDays] = useState<DayRecord[]>(SEED);
-  const [hydrated, setHydrated] = useState(false);
-
-  // Stored data replaces the seed once the browser is available. Rendering the
-  // seed first keeps the first paint identical on server and client.
-  useEffect(() => {
-    const stored = loadDays();
-    if (stored?.length) setDays(stored);
-    setHydrated(true);
-  }, []);
-
-  const ingest = (incoming: DayRecord[]) => {
-    setDays((current) => {
-      const base = loadDays() ?? [];
-      const next = mergeDays(base.length ? base : current, incoming);
-      saveDays(next);
-      return next;
-    });
-  };
-
-  const reset = () => {
-    clearDays();
-    setDays(SEED);
-  };
+  const days = DAYS;
 
   const hrvSeries = days.filter((d) => d.hrvMs !== null);
   const hrSeries = days.filter((d) => d.restingHeartRate != null);
   const hrValues = hrSeries.map((d) => d.restingHeartRate!.avgBpm);
   const latestHr = hrSeries.at(-1)?.restingHeartRate;
   const stepValues = days.filter((d) => d.steps !== null).map((d) => d.steps!);
-
-  const usingSeed = hydrated && !loadDays();
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -69,22 +40,6 @@ export function Dashboard() {
       </header>
 
       <div className="rise space-y-4">
-        <StreakGrid days={days} />
-
-        <DataIntake
-          dayCount={days.length}
-          onIngest={ingest}
-          onReset={reset}
-          onExport={() => exportDays(days)}
-        />
-
-        {usingSeed && (
-          <p className="rounded-xl border border-flare/25 bg-flare-wash px-4 py-3 text-[12px] leading-relaxed text-flare-deep">
-            Showing sample data. Drop a Health Auto Export file above to replace
-            it with your own.
-          </p>
-        )}
-
         <div className="grid gap-4 lg:grid-cols-3">
           <Panel
             eyebrow="Movement"
@@ -188,7 +143,7 @@ export function Dashboard() {
       </div>
 
       <footer className="mt-10 border-t border-line pt-5 font-mono text-[10px] leading-relaxed text-ink-faint">
-        Data lives in this browser's local storage. Nothing is sent anywhere.
+        Data comes from data/health.json, updated via `npm run ingest`.
       </footer>
     </main>
   );

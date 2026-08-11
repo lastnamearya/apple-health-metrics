@@ -5,7 +5,8 @@
       "Bash(npm run *)",
       "Bash(python3 -c ' *)",
       "Bash(grep -o '.\\\\{10\\\\}9,800.\\\\{20\\\\}')",
-      "Bash(python3)"
+      "Bash(python3)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000)"
     ]
   }
 }
