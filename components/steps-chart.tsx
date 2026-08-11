@@ -19,7 +19,7 @@ export function StepsChart({ days }: { days: DayRecord[] }) {
     .map((d) => ({ date: d.date, label: shortDate(d.date), steps: d.steps! }));
 
   return (
-    <div className="h-52 w-full">
+    <div className="h-60 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={rows} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
           <XAxis
@@ -28,6 +28,8 @@ export function StepsChart({ days }: { days: DayRecord[] }) {
             axisLine={false}
             tick={{ fontSize: 10, fill: "var(--color-ink-faint)" }}
             interval={0}
+            tickMargin={18}
+            height={36}
           />
           <YAxis
             tickLine={false}

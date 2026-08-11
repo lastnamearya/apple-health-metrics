@@ -46,7 +46,7 @@ export function Dashboard() {
     <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
       <header className="mb-8 flex flex-wrap items-baseline justify-between gap-2">
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-faint">
-          Health · Apple Watch
+          Jigyasu · Health Metrics
         </p>
         <p className="font-mono text-[11px] text-ink-faint">
           through {shortDate(todayIso())}

@@ -5,6 +5,7 @@ import {
   AreaChart,
   ReferenceLine,
   ResponsiveContainer,
+  Text,
   Tooltip,
   XAxis,
   YAxis,
@@ -21,7 +22,7 @@ export function TrendChart({
   baselineLabel,
   unit,
   color = "var(--color-flare)",
-  height = 148,
+  height = 172,
 }: {
   points: TrendPoint[];
   baseline?: number;
@@ -50,9 +51,31 @@ export function TrendChart({
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            tick={{ fontSize: 10, fill: "var(--color-ink-faint)" }}
             interval="preserveStartEnd"
             minTickGap={12}
+            tickMargin={18}
+            height={36}
+            tick={(props) => {
+              const { x, y, payload, index } = props;
+              // Nudge only the first/last labels inward from their point —
+              // the plotted line/area still starts and ends at the true
+              // edge, just the label text renders with some breathing room
+              // from the Y-axis / right edge instead of sitting flush on it.
+              const isFirst = index === 0;
+              const isLast = index === points.length - 1;
+              const dx = isFirst ? 10 : isLast ? -10 : 0;
+              return (
+                <Text
+                  x={Number(x) + dx}
+                  y={y}
+                  textAnchor={isFirst ? "start" : isLast ? "end" : "middle"}
+                  fontSize={10}
+                  fill="var(--color-ink-faint)"
+                >
+                  {payload.value}
+                </Text>
+              );
+            }}
           />
           <YAxis
             tickLine={false}
