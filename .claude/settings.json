@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(npm run *)",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -o '.\\\\{10\\\\}9,800.\\\\{20\\\\}')",
+      "Bash(python3)"
+    ]
+  }
+}

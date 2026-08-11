@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  /* Canvas + ink */
+  --color-canvas: #ffffff;
+  --color-surface: #fafaf9;
+  --color-line: #e9e6e2;
+  --color-ink: #17140f;
+  --color-ink-soft: #5c554c;
+  --color-ink-faint: #9c948a;
+
+  /* Orange — the one accent, used with restraint */
+  --color-flare: #f26b0f;
+  --color-flare-deep: #c24f00;
+  --color-flare-wash: #fff2e6;
+
+  /* Supporting signal colors, desaturated so orange stays loudest */
+  --color-calm: #4f7d74;
+  --color-calm-wash: #eef5f3;
+
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tabular figures everywhere a number is compared against another number. */
+.nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-flare);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
