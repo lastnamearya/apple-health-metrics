@@ -21,7 +21,7 @@ export function StepsChart({ days }: { days: DayRecord[] }) {
   return (
     <div className="h-52 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={rows} margin={{ top: 8, right: 4, bottom: 0, left: -18 }}>
+        <BarChart data={rows} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
           <XAxis
             dataKey="label"
             tickLine={false}
@@ -33,8 +33,9 @@ export function StepsChart({ days }: { days: DayRecord[] }) {
             tickLine={false}
             axisLine={false}
             tick={{ fontSize: 10, fill: "var(--color-ink-faint)" }}
-            tickFormatter={(v: number) => `${v / 1000}k`}
+            tickFormatter={(v: number) => `${Math.round(v / 1000)}k`}
             domain={[0, (max: number) => Math.max(STEP_GOAL * 1.4, max * 1.1)]}
+            width={34}
           />
           <ReferenceLine
             y={STEP_GOAL}

@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Health Dashboard",
+  title: "Jigyasu Health Dashboard",
   description: "Apple Watch and Apple Health data, read closely.",
 };
 
