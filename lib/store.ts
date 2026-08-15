@@ -67,6 +67,7 @@ export function mergeDays(
       hrvMs: day.hrvMs ?? current.hrvMs,
       sleep: day.sleep ?? current.sleep,
       restingHeartRate: day.restingHeartRate ?? current.restingHeartRate,
+      vo2Max: day.vo2Max ?? current.vo2Max,
     });
   }
 

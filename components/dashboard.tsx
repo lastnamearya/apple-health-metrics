@@ -36,6 +36,12 @@ export function Dashboard() {
   const hrValues = hrSeries.map((d) => d.restingHeartRate!.avgBpm);
   const latestHr = hrSeries.at(-1)?.restingHeartRate;
   const stepValues = days.filter((d) => d.steps !== null).map((d) => d.steps!);
+  
+  const vo2Series = days.filter((d) => d.vo2Max !== null);
+  const recentVo2 = vo2Series.slice(-7);
+  const avgVo2Last7 = recentVo2.length > 0 
+    ? (recentVo2.reduce((sum, d) => sum + d.vo2Max!, 0) / recentVo2.length).toFixed(1)
+    : "—";
 
   const sleepScores = days
     .filter((d) => d.sleep !== null)
@@ -55,11 +61,10 @@ export function Dashboard() {
       </header>
 
       <div className="rise space-y-4">
-        <div className="grid gap-4 lg:grid-cols-5">
+        <div className="grid gap-4">
           <Panel
             eyebrow="Movement"
             title="Daily steps"
-            className="lg:col-span-3"
             aside={
               <Stat
                 value={Math.round(mean(stepValues)).toLocaleString("en-IN")}
@@ -69,31 +74,23 @@ export function Dashboard() {
           >
             <StepsChart days={days} />
           </Panel>
+        </div>
 
+        <div className="grid gap-4 lg:grid-cols-2">
           <Panel
             eyebrow="Recovery"
             title="Heart rate variability"
-            className="lg:col-span-2"
             aside={
-              <span className="font-mono text-[10px] uppercase tracking-wider text-ink-faint">
-                daily average
-              </span>
-            }
-          >
-            <div className="mb-4">
               <Stat
-                value={formatHrv(hrvSeries.at(-1)?.hrvMs)}
+                value={formatHrv(mean(hrvSeries.slice(-7).filter(d => d.hrvMs !== null).map(d => d.hrvMs!)))}
                 unit="ms"
-                label={
-                  hrvSeries.length
-                    ? shortDate(hrvSeries.at(-1)!.date)
-                    : "No reading"
-                }
+                label="7-day avg"
                 tone="flare"
               />
-            </div>
+            }
+          >
             <TrendChart
-              points={hrvSeries.map((d) => ({
+              points={hrvSeries.slice(-7).map((d) => ({
                 label: shortDate(d.date),
                 value: d.hrvMs!,
               }))}
@@ -102,7 +99,7 @@ export function Dashboard() {
             />
             <ol className="mt-4 space-y-1.5 border-t border-line pt-3">
               {hrvSeries
-                .slice(-5)
+                .slice(-7)
                 .reverse()
                 .map((d) => (
                   <li
@@ -111,6 +108,41 @@ export function Dashboard() {
                   >
                     <span className="text-ink-faint">{shortDate(d.date)}</span>
                     <span className="text-ink">{formatHrv(d.hrvMs)}</span>
+                  </li>
+                ))}
+            </ol>
+          </Panel>
+
+          <Panel
+            eyebrow="Cardio Fitness"
+            title="VO2 Max"
+            aside={
+              <Stat
+                value={avgVo2Last7}
+                unit="ml/kg/min"
+                label="7-day avg"
+                tone="flare"
+              />
+            }
+          >
+            <TrendChart
+              points={recentVo2.map((d) => ({
+                label: shortDate(d.date),
+                value: d.vo2Max!,
+              }))}
+              unit="ml/kg/min"
+            />
+            <ol className="mt-4 space-y-1.5 border-t border-line pt-3">
+              {recentVo2
+                .slice(-7)
+                .reverse()
+                .map((d) => (
+                  <li
+                    key={d.date}
+                    className="nums flex items-baseline justify-between font-mono text-[11px]"
+                  >
+                    <span className="text-ink-faint">{shortDate(d.date)}</span>
+                    <span className="text-ink">{d.vo2Max!.toFixed(1)}</span>
                   </li>
                 ))}
             </ol>

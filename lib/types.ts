@@ -39,6 +39,8 @@ export interface DayRecord {
   hrvMs: number | null;
   sleep: SleepStages | null;
   restingHeartRate: RestingHeartRate | null;
+  /** VO2 max cardio fitness measurement in ml/kg/min. */
+  vo2Max: number | null;
 }
 
 export interface HealthDataset {

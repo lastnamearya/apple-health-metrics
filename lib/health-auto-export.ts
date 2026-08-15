@@ -194,6 +194,7 @@ export function parseHealthAutoExport(
         hrvMs: null,
         sleep: null,
         restingHeartRate: null,
+        vo2Max: null,
       };
       days.set(date, record);
     }

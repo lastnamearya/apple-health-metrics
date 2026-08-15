@@ -53,6 +53,7 @@ export function buildDayRecord(
     restingHeartRate: hrMin
       ? { minBpm: hrMin, avgBpm: values.hrAvg ?? hrMin }
       : null,
+    vo2Max: null,
   };
 }
 
