@@ -149,35 +149,6 @@ export function Dashboard() {
           </Panel>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          <SleepPanel days={days} />
-
-          <Panel
-            eyebrow="Sleep"
-            title="Sleep score, last 7 nights"
-            aside={
-              latestSleepScore && (
-                <div>
-                  <p className="nums font-display text-3xl font-800 leading-none text-flare">
-                    {latestSleepScore.score}
-                  </p>
-                  <p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-ink-soft">
-                    {scoreLabel(latestSleepScore.score)}
-                  </p>
-                </div>
-              )
-            }
-          >
-            <TrendChart
-              points={recentSleepScores.map((d) => ({
-                label: shortDate(d.date),
-                value: d.score,
-              }))}
-              unit="pts"
-            />
-          </Panel>
-        </div>
-
         <div className="grid gap-4">
           <Panel
             eyebrow="Recovery"
@@ -214,6 +185,35 @@ export function Dashboard() {
               can take a day or two to settle after export, so it's sometimes
               stale by the time you check it.
             </p>
+          </Panel>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <SleepPanel days={days} />
+
+          <Panel
+            eyebrow="Sleep"
+            title="Sleep score, last 7 nights"
+            aside={
+              latestSleepScore && (
+                <div>
+                  <p className="nums font-display text-3xl font-800 leading-none text-flare">
+                    {latestSleepScore.score}
+                  </p>
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-ink-soft">
+                    {scoreLabel(latestSleepScore.score)}
+                  </p>
+                </div>
+              )
+            }
+          >
+            <TrendChart
+              points={recentSleepScores.map((d) => ({
+                label: shortDate(d.date),
+                value: d.score,
+              }))}
+              unit="pts"
+            />
           </Panel>
         </div>
       </div>
