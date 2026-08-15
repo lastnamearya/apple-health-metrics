@@ -128,9 +128,9 @@ export function Dashboard() {
             title="VO2 Max"
             aside={
               <Stat
-                value={avgVo2Last7}
+                value={recentVo2.at(-1)?.vo2Max?.toFixed(1) ?? "—"}
                 unit="ml/kg/min"
-                label="7-day avg"
+                label="latest"
                 tone="flare"
               />
             }
