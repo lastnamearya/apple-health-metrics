@@ -33,6 +33,28 @@ if (result.ignored.length) {
   console.log(`\nIgnored series: ${result.ignored.join(", ")}`);
 }
 
+// Merge with existing data
 const outPath = resolve("data/health.json");
-writeFileSync(outPath, JSON.stringify({ days: result.days }, null, 2) + "\n");
-console.log(`\nWrote ${result.days.length} days to ${outPath}`);
+let existingData: { days: typeof result.days } = { days: [] };
+try {
+  const existing = readFileSync(outPath, "utf-8");
+  existingData = JSON.parse(existing);
+} catch {
+  console.log("No existing data found, starting fresh.");
+}
+
+// Create a map of existing days by date for easy lookup
+const existingMap = new Map(existingData.days.map(d => [d.date, d]));
+
+// Merge: update or add new days
+for (const newDay of result.days) {
+  existingMap.set(newDay.date, newDay);
+}
+
+// Convert back to array and sort by date
+const mergedDays = Array.from(existingMap.values()).sort((a, b) => 
+  a.date.localeCompare(b.date)
+);
+
+writeFileSync(outPath, JSON.stringify({ days: mergedDays }, null, 2) + "\n");
+console.log(`\nMerged ${result.days.length} new days. Total: ${mergedDays.length} days in ${outPath}`);
