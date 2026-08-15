@@ -7,6 +7,7 @@ import { TrendChart } from "./trend-chart";
 import { Delta, Panel, Stat } from "./ui";
 import {
   BASELINES,
+  dayIndex,
   mean,
   scoreLabel,
   shortDate,
@@ -49,7 +50,7 @@ export function Dashboard() {
           Jigyasu · Health Metrics
         </p>
         <p className="font-mono text-[11px] text-ink-faint">
-          through {shortDate(todayIso())}
+          Day {dayIndex(todayIso())} of 21
         </p>
       </header>
 
@@ -177,9 +178,9 @@ export function Dashboard() {
             />
             <p className="mt-3 text-[11px] leading-relaxed text-ink-faint">
               Derived from the day's raw heart-rate samples (roughly the 1st
-              percentile), not Apple's own Resting Heart Rate figure — that
-              one can take a day or two to settle after export, so it's
-              sometimes stale by the time you check it.
+              percentile), not Apple's own Resting Heart Rate figure — that one
+              can take a day or two to settle after export, so it's sometimes
+              stale by the time you check it.
             </p>
           </Panel>
         </div>

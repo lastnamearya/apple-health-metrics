@@ -60,13 +60,16 @@ export function sleepScore(sleep: SleepStages): number {
   if (asleepMinutes <= 0) return 0;
 
   // Duration — 40 points, linear up to target, capped.
-  const duration = Math.min(1, asleepMinutes / SLEEP_TARGETS.durationMinutes) * 40;
+  const duration =
+    Math.min(1, asleepMinutes / SLEEP_TARGETS.durationMinutes) * 40;
 
   // Deep — 20 points.
-  const deep = bandScore(deepMinutes / asleepMinutes, SLEEP_TARGETS.deepShare) * 20;
+  const deep =
+    bandScore(deepMinutes / asleepMinutes, SLEEP_TARGETS.deepShare) * 20;
 
   // REM — 20 points.
-  const rem = bandScore(remMinutes / asleepMinutes, SLEEP_TARGETS.remShare) * 20;
+  const rem =
+    bandScore(remMinutes / asleepMinutes, SLEEP_TARGETS.remShare) * 20;
 
   // Efficiency — 20 points, how much of your time in bed was actually sleep.
   const efficiency =
@@ -106,7 +109,10 @@ export interface StreakCell {
   status: "hit" | "missed" | "today" | "upcoming";
 }
 
-export function buildStreak(days: DayRecord[], today = todayIso()): StreakCell[] {
+export function buildStreak(
+  days: DayRecord[],
+  today = todayIso()
+): StreakCell[] {
   const byDate = new Map(days.map((d) => [d.date, d]));
   const cells: StreakCell[] = [];
 
