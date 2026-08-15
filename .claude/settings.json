@@ -7,7 +7,17 @@
       "Bash(grep -o '.\\\\{10\\\\}9,800.\\\\{20\\\\}')",
       "Bash(python3)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000)",
-      "Bash(grep -o 'Jigyasu.\\\\{0,20\\\\}')"
+      "Bash(grep -o 'Jigyasu.\\\\{0,20\\\\}')",
+      "Bash(npx --yes chromium-cli --help)",
+      "Bash(command -v chromium-cli)",
+      "Read(//usr/local/bin/**)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(node -e \"require.resolve\\('playwright'\\)\")",
+      "Bash(npm ls *)",
+      "Bash(npx --yes playwright install chromium)",
+      "Bash(node /private/tmp/claude-501/-Users-lastnamearya-dev-health-dashboard/7c2572e3-08b9-4f05-8b2b-a8d2a73a57d4/scratchpad/shot.mjs)",
+      "Bash(lsof -ti:3000 -sTCP:LISTEN)",
+      "Bash(xargs -r kill)"
     ]
   }
 }

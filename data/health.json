@@ -2,10 +2,10 @@
   "days": [
     {
       "date": "2026-08-03",
-      "steps": 9974,
+      "steps": 9679,
       "hrvMs": 44,
       "sleep": {
-        "inBedMinutes": 531,
+        "inBedMinutes": 530,
         "asleepMinutes": 523,
         "coreMinutes": 309,
         "deepMinutes": 56,
@@ -22,10 +22,10 @@
     },
     {
       "date": "2026-08-04",
-      "steps": 10254,
+      "steps": 10120,
       "hrvMs": 44,
       "sleep": {
-        "inBedMinutes": 480,
+        "inBedMinutes": 479,
         "asleepMinutes": 470,
         "coreMinutes": 283,
         "deepMinutes": 56,
@@ -42,7 +42,7 @@
     },
     {
       "date": "2026-08-05",
-      "steps": 13837,
+      "steps": 13508,
       "hrvMs": 55,
       "sleep": {
         "inBedMinutes": 541,
@@ -62,10 +62,10 @@
     },
     {
       "date": "2026-08-06",
-      "steps": 20933,
+      "steps": 20391,
       "hrvMs": 65,
       "sleep": {
-        "inBedMinutes": 351,
+        "inBedMinutes": 350,
         "asleepMinutes": 348,
         "coreMinutes": 227,
         "deepMinutes": 47,
@@ -82,7 +82,7 @@
     },
     {
       "date": "2026-08-07",
-      "steps": 12106,
+      "steps": 11421,
       "hrvMs": 66,
       "sleep": {
         "inBedMinutes": 514,
@@ -102,10 +102,10 @@
     },
     {
       "date": "2026-08-08",
-      "steps": 12007,
+      "steps": 11150,
       "hrvMs": 73,
       "sleep": {
-        "inBedMinutes": 508,
+        "inBedMinutes": 507,
         "asleepMinutes": 492,
         "coreMinutes": 343,
         "deepMinutes": 41,
@@ -122,15 +122,15 @@
     },
     {
       "date": "2026-08-09",
-      "steps": 10935,
+      "steps": 10665,
       "hrvMs": 66,
       "sleep": {
-        "inBedMinutes": 329,
+        "inBedMinutes": 328,
         "asleepMinutes": 326,
-        "coreMinutes": 208,
+        "coreMinutes": 209,
         "deepMinutes": 52,
         "remMinutes": 65,
-        "awakeMinutes": 3,
+        "awakeMinutes": 2,
         "bedtime": "2026-08-09 02:39:28 +0530",
         "wakeTime": "2026-08-09 08:08:11 +0530"
       },
@@ -142,7 +142,7 @@
     },
     {
       "date": "2026-08-10",
-      "steps": 13078,
+      "steps": 12662,
       "hrvMs": 74,
       "sleep": {
         "inBedMinutes": 528,
@@ -162,7 +162,7 @@
     },
     {
       "date": "2026-08-11",
-      "steps": 11137,
+      "steps": 10306,
       "hrvMs": 59,
       "sleep": {
         "inBedMinutes": 458,
@@ -182,7 +182,7 @@
     },
     {
       "date": "2026-08-12",
-      "steps": 16382,
+      "steps": 15130,
       "hrvMs": 60,
       "sleep": {
         "inBedMinutes": 488,
@@ -202,7 +202,7 @@
     },
     {
       "date": "2026-08-13",
-      "steps": 11026,
+      "steps": 10275,
       "hrvMs": 52,
       "sleep": {
         "inBedMinutes": 433,
@@ -222,7 +222,7 @@
     },
     {
       "date": "2026-08-14",
-      "steps": 12457,
+      "steps": 11705,
       "hrvMs": 69,
       "sleep": {
         "inBedMinutes": 374,
@@ -242,7 +242,7 @@
     },
     {
       "date": "2026-08-15",
-      "steps": 13122,
+      "steps": 11945,
       "hrvMs": 65,
       "sleep": {
         "inBedMinutes": 480,

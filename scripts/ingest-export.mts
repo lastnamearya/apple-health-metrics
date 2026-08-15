@@ -46,9 +46,25 @@ try {
 // Create a map of existing days by date for easy lookup
 const existingMap = new Map(existingData.days.map(d => [d.date, d]));
 
-// Merge: update or add new days
+// Merge field-by-field, not whole-record: a partial export (e.g. one that
+// only covers Step Count) must not null out fields — like restingHeartRate —
+// that only a *different* export (raw Heart Rate) can populate. A new day's
+// field wins only when it actually has a value; null/undefined defers to
+// whatever the existing record already had.
 for (const newDay of result.days) {
-  existingMap.set(newDay.date, newDay);
+  const existing = existingMap.get(newDay.date);
+  if (!existing) {
+    existingMap.set(newDay.date, newDay);
+    continue;
+  }
+  existingMap.set(newDay.date, {
+    date: newDay.date,
+    steps: newDay.steps ?? existing.steps,
+    hrvMs: newDay.hrvMs ?? existing.hrvMs,
+    sleep: newDay.sleep ?? existing.sleep,
+    restingHeartRate: newDay.restingHeartRate ?? existing.restingHeartRate,
+    vo2Max: newDay.vo2Max ?? existing.vo2Max,
+  });
 }
 
 // Convert back to array and sort by date

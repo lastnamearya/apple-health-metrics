@@ -38,7 +38,7 @@ export function Dashboard() {
   const stepValues = days.filter((d) => d.steps !== null).map((d) => d.steps!);
 
   const vo2Series = days.filter((d) => d.vo2Max !== null);
-  const recentVo2 = vo2Series.slice(-7);
+  const recentVo2 = vo2Series.slice(-9);
   const avgVo2Last7 =
     recentVo2.length > 0
       ? (
@@ -107,20 +107,6 @@ export function Dashboard() {
               unit="ms"
               stackDateLabels
             />
-            <ol className="mt-4 space-y-1.5 border-t border-line pt-3">
-              {hrvSeries
-                .slice(-7)
-                .reverse()
-                .map((d) => (
-                  <li
-                    key={d.date}
-                    className="nums flex items-baseline justify-between font-mono text-[11px]"
-                  >
-                    <span className="text-ink-faint">{shortDate(d.date)}</span>
-                    <span className="text-ink">{formatHrv(d.hrvMs)}</span>
-                  </li>
-                ))}
-            </ol>
           </Panel>
 
           <Panel
@@ -141,21 +127,8 @@ export function Dashboard() {
                 value: d.vo2Max!,
               }))}
               unit="ml/kg/min"
+              stackDateLabels
             />
-            <ol className="mt-4 space-y-1.5 border-t border-line pt-3">
-              {recentVo2
-                .slice(-7)
-                .reverse()
-                .map((d) => (
-                  <li
-                    key={d.date}
-                    className="nums flex items-baseline justify-between font-mono text-[11px]"
-                  >
-                    <span className="text-ink-faint">{shortDate(d.date)}</span>
-                    <span className="text-ink">{d.vo2Max!.toFixed(2)}</span>
-                  </li>
-                ))}
-            </ol>
           </Panel>
         </div>
 

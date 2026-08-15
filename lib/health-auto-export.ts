@@ -102,6 +102,8 @@ interface MetricSpec {
   aggregation: Aggregation;
   scale?: number;
   round?: boolean;
+  /** Round down instead of to nearest. Steps only — see METRIC_SPECS. */
+  floor?: boolean;
 }
 
 /**
@@ -109,8 +111,30 @@ interface MetricSpec {
  * so an older export won't use the current identifier.
  */
 const METRIC_SPECS: Record<string, MetricSpec> = {
-  step_count: { field: "steps", aggregation: "sum", round: true },
-  steps: { field: "steps", aggregation: "sum", round: true },
+  // When both an Apple Watch and iPhone are active (Preferred Source "All"
+  // in Health Auto Export), a *fine-grained* (per-second/minute) export
+  // gives step_count samples with a joined source like "Apple Watch|iPhone
+  // (2)" for any instant both devices contributed to, and HealthKit sums
+  // rather than dedupes those — summing runs ~6-10% above what the Health
+  // app itself displays for the day. There's no "prefer Watch, fall back to
+  // iPhone" export option (Preferred Source is exclusive: one device or
+  // "All"), so picking a single device instead would undercount far worse.
+  //
+  // The real fix: turn on "Summarize Data" for Step Count specifically in
+  // Health Auto Export. At day granularity, HealthKit's own statistics
+  // query reconciles overlapping devices correctly — validated against real
+  // exports, it matches the Health app's displayed total almost exactly.
+  // Don't do this for Heart Rate too, though — resting heart rate below is
+  // derived from many raw samples per day, and a summarized one-row-per-day
+  // Min/Max/Avg isn't enough signal for that percentile calculation.
+  //
+  // Apple's own displayed step count truncates the fractional daily total
+  // rather than rounding to nearest — verified against 13 real days: every
+  // day where the raw qty had a fractional part ≥0.5 (e.g. 11945.924),
+  // Math.round would overcount by 1 (11946) while the Health app showed the
+  // floored value (11945). Floor here, not round, to match.
+  step_count: { field: "steps", aggregation: "sum", round: true, floor: true },
+  steps: { field: "steps", aggregation: "sum", round: true, floor: true },
 
   // A day carries one SDNN sample roughly every 5-15 minutes (mostly
   // overnight), not one reading total — Health's own daily HRV figure is
@@ -256,18 +280,30 @@ export function parseHealthAutoExport(
       continue;
     }
 
-    // Source filtering. Not just summed metrics double-count when two
-    // sources both write the same series — an averaged one like resting
-    // heart rate gets silently blended too, e.g. Apple Watch's own reading
-    // averaged with a third-party app's independent one. Prefer one source
-    // whenever more than one shows up, regardless of how the metric aggregates.
+    // Source filtering. An averaged metric like resting heart rate gets
+    // silently blended when two sources both write it — e.g. Apple Watch's
+    // own reading averaged with a third-party app's independent one — so
+    // prefer one source whenever more than one shows up. "sum" fields are
+    // deliberately exempted: for steps specifically, Watch+iPhone samples
+    // arrive pre-merged by HealthKit (see METRIC_SPECS), and a handful of
+    // leftover genuinely-solo-source samples exist alongside them — filtering
+    // to "preferred source only" would keep just that unrepresentative
+    // sliver and discard almost the entire day's data, which is far worse
+    // than the accepted ~6-10% overcount from summing everything.
     let relevant = samples;
     {
       const sources = new Set(samples.map((s) => s.source).filter(Boolean));
-      if (sources.size > 1) {
-        const preferred = samples.filter((s) =>
-          normalizeDeviceName(s.source).includes(preferSource)
-        );
+      if (sources.size > 1 && spec.aggregation !== "sum") {
+        // A sample whose source is itself a join of multiple devices (e.g.
+        // "Apple Watch|iPhone (2)") is HealthKit's own merged/summed figure
+        // for that instant, not a genuine single-source reading — matching
+        // it via .includes(preferSource) would silently accept an already-
+        // blended (and for cumulative types like steps, likely inflated)
+        // value as if it came from the preferred device alone.
+        const preferred = samples.filter((s) => {
+          const normalized = normalizeDeviceName(s.source);
+          return !normalized.includes("|") && normalized.includes(preferSource);
+        });
         if (preferred.length) {
           relevant = preferred;
           warnings.push(
@@ -279,6 +315,30 @@ export function parseHealthAutoExport(
           );
         }
       }
+    }
+
+    // A merged source label ("A|B") only signals real inflation risk when
+    // the export is fine-grained (per-second/minute) — HealthKit sums each
+    // device's contribution per instant there. At day-granularity ("Summarize
+    // Data" on in Health Auto Export for this metric), the same label shows
+    // up on an already-correctly-reconciled daily total instead — validated
+    // against real data, it matches the Health app's own figure almost
+    // exactly — so warning here would be a false positive. Tell the two
+    // apart by sample density: many rows per day means raw/naively-summed,
+    // ~1 per day means pre-aggregated by HealthKit itself.
+    const distinctDays = new Set(
+      relevant.map((s) => localDay(s.date ?? s.start ?? "")).filter(Boolean)
+    ).size;
+    const isFineGrained = distinctDays > 0 && relevant.length > distinctDays * 3;
+
+    if (
+      spec.aggregation === "sum" &&
+      isFineGrained &&
+      relevant.some((s) => (s.source ?? "").includes("|"))
+    ) {
+      warnings.push(
+        `${metric.name}: samples are fine-grained and pre-merged across multiple devices — sum may run ~6-10% above the Health app's own total. Enabling "Summarize Data" for this metric in Health Auto Export avoids this.`
+      );
     }
 
     for (const sample of relevant) {
@@ -296,7 +356,7 @@ export function parseHealthAutoExport(
 
     for (const [date, values] of byDate) {
       const value = aggregate(values, spec.aggregation);
-      const rounded = spec.round ? Math.round(value) : value;
+      const rounded = spec.round ? (spec.floor ? Math.floor(value) : Math.round(value)) : value;
       const record = ensure(date);
 
       if (field === "steps") record.steps = rounded;
