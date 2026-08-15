@@ -36,12 +36,15 @@ export function Dashboard() {
   const hrValues = hrSeries.map((d) => d.restingHeartRate!.avgBpm);
   const latestHr = hrSeries.at(-1)?.restingHeartRate;
   const stepValues = days.filter((d) => d.steps !== null).map((d) => d.steps!);
-  
+
   const vo2Series = days.filter((d) => d.vo2Max !== null);
   const recentVo2 = vo2Series.slice(-7);
-  const avgVo2Last7 = recentVo2.length > 0 
-    ? (recentVo2.reduce((sum, d) => sum + d.vo2Max!, 0) / recentVo2.length).toFixed(1)
-    : "—";
+  const avgVo2Last7 =
+    recentVo2.length > 0
+      ? (
+          recentVo2.reduce((sum, d) => sum + d.vo2Max!, 0) / recentVo2.length
+        ).toFixed(1)
+      : "—";
 
   const sleepScores = days
     .filter((d) => d.sleep !== null)
@@ -82,7 +85,14 @@ export function Dashboard() {
             title="Heart rate variability"
             aside={
               <Stat
-                value={formatHrv(mean(hrvSeries.slice(-7).filter(d => d.hrvMs !== null).map(d => d.hrvMs!)))}
+                value={formatHrv(
+                  mean(
+                    hrvSeries
+                      .slice(-7)
+                      .filter((d) => d.hrvMs !== null)
+                      .map((d) => d.hrvMs!)
+                  )
+                )}
                 unit="ms"
                 label="7-day avg"
                 tone="flare"
@@ -218,9 +228,7 @@ export function Dashboard() {
         </div>
       </div>
 
-      <footer className="mt-10 border-t border-line pt-5 font-mono text-[10px] leading-relaxed text-ink-faint">
-        Data comes from data/health.json, updated via `npm run ingest`.
-      </footer>
+      <footer className="mt-10 border-t border-line pt-5 font-mono text-[10px] leading-relaxed text-ink-faint" />
     </main>
   );
 }
