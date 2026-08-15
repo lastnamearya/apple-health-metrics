@@ -95,7 +95,7 @@ function normalizeDeviceName(name: string | undefined): string {
 /* ----------------------------------------------------------------- specs -- */
 
 type Aggregation = "sum" | "avg" | "min" | "max" | "last";
-type Field = "steps" | "hrvMs";
+type Field = "steps" | "hrvMs" | "vo2Max";
 
 interface MetricSpec {
   field: Field;
@@ -118,6 +118,9 @@ const METRIC_SPECS: Record<string, MetricSpec> = {
   // days (matched to within rounding on all four).
   heart_rate_variability: { field: "hrvMs", aggregation: "avg", round: true },
   heart_rate_variability_sdnn: { field: "hrvMs", aggregation: "avg", round: true },
+
+  // VO2 Max can have multiple readings per day — average them.
+  vo2_max: { field: "vo2Max", aggregation: "avg", round: false },
 };
 
 /** Series handled specially rather than through METRIC_SPECS. */
@@ -298,6 +301,7 @@ export function parseHealthAutoExport(
 
       if (field === "steps") record.steps = rounded;
       else if (field === "hrvMs") record.hrvMs = rounded;
+      else if (field === "vo2Max") record.vo2Max = rounded;
     }
   }
 
