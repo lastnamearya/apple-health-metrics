@@ -128,7 +128,7 @@ export function Dashboard() {
             title="VO2 Max"
             aside={
               <Stat
-                value={recentVo2.at(-1)?.vo2Max?.toFixed(1) ?? "—"}
+                value={recentVo2.at(-1)?.vo2Max?.toFixed(2) ?? "—"}
                 unit="ml/kg/min"
                 label="latest"
                 tone="flare"
@@ -152,7 +152,7 @@ export function Dashboard() {
                     className="nums flex items-baseline justify-between font-mono text-[11px]"
                   >
                     <span className="text-ink-faint">{shortDate(d.date)}</span>
-                    <span className="text-ink">{d.vo2Max!.toFixed(1)}</span>
+                    <span className="text-ink">{d.vo2Max!.toFixed(2)}</span>
                   </li>
                 ))}
             </ol>
