@@ -15,7 +15,7 @@ export function Panel({
 }) {
   return (
     <section
-      className={`rounded-2xl border border-line bg-canvas p-5 sm:p-6 ${className}`}
+      className={`min-w-0 rounded-2xl border border-line bg-canvas p-5 sm:p-6 ${className}`}
     >
       <header className="mb-5 flex items-start justify-between gap-4">
         <div>

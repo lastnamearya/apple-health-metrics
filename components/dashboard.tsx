@@ -105,7 +105,6 @@ export function Dashboard() {
                 value: d.hrvMs!,
               }))}
               unit="ms"
-              stackDateLabels
             />
           </Panel>
 
@@ -127,7 +126,6 @@ export function Dashboard() {
                 value: d.vo2Max!,
               }))}
               unit="ml/kg/min"
-              stackDateLabels
             />
           </Panel>
         </div>
