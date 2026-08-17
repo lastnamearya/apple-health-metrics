@@ -36,7 +36,7 @@ export function StepsChart({ days }: { days: DayRecord[] }) {
   return (
     <div
       ref={scrollRef}
-      className="h-64 w-full overflow-x-auto overscroll-x-contain"
+      className="chart-scroll h-64 w-full overflow-x-auto overscroll-x-contain"
     >
       <div className="h-full" style={{ minWidth }}>
         <ResponsiveContainer width="100%" height="100%">

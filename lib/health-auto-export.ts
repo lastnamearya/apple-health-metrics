@@ -143,8 +143,11 @@ const METRIC_SPECS: Record<string, MetricSpec> = {
   heart_rate_variability: { field: "hrvMs", aggregation: "avg", round: true },
   heart_rate_variability_sdnn: { field: "hrvMs", aggregation: "avg", round: true },
 
-  // VO2 Max can have multiple readings per day — average them.
-  vo2_max: { field: "vo2Max", aggregation: "avg", round: false },
+  // VO2 Max can have multiple readings per day — only recorded during
+  // outdoor cardio activity, and each reading is a full independent
+  // estimate rather than a sample of a continuous value, so the best one
+  // that day is the meaningful figure, not their average.
+  vo2_max: { field: "vo2Max", aggregation: "max", round: false },
 };
 
 /** Series handled specially rather than through METRIC_SPECS. */

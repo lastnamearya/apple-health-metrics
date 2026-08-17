@@ -70,3 +70,18 @@ body {
 .rise {
   animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+/* Charts scroll horizontally on narrow screens, but Chrome's classic
+ * (non-overlay) scrollbar reserves box space only while visible — right at
+ * the width where content just barely overflows, that reserved space can
+ * flip the container in and out of overflow on its own, flickering the bar.
+ * Scrolling itself (touch, trackpad, shift+wheel) still works with the
+ * scrollbar hidden, so hide the chrome rather than the behavior. */
+.chart-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chart-scroll::-webkit-scrollbar {
+  display: none;
+}
