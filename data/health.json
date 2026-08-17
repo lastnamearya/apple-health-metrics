@@ -259,6 +259,46 @@
         "minBpm": 55
       },
       "vo2Max": 32.94
+    },
+    {
+      "date": "2026-08-16",
+      "steps": 13626,
+      "hrvMs": 62,
+      "sleep": {
+        "inBedMinutes": 398,
+        "asleepMinutes": 395,
+        "coreMinutes": 278,
+        "deepMinutes": 39,
+        "remMinutes": 78,
+        "awakeMinutes": 4,
+        "bedtime": "2026-08-16 04:04:45 +0530",
+        "wakeTime": "2026-08-16 10:42:49 +0530"
+      },
+      "restingHeartRate": {
+        "avgBpm": 53,
+        "minBpm": 53
+      },
+      "vo2Max": 33.22
+    },
+    {
+      "date": "2026-08-17",
+      "steps": 1004,
+      "hrvMs": 66,
+      "sleep": {
+        "inBedMinutes": 448,
+        "asleepMinutes": 439,
+        "coreMinutes": 301,
+        "deepMinutes": 47,
+        "remMinutes": 90,
+        "awakeMinutes": 9,
+        "bedtime": "2026-08-17 04:12:47 +0530",
+        "wakeTime": "2026-08-17 11:40:43 +0530"
+      },
+      "restingHeartRate": {
+        "avgBpm": 52,
+        "minBpm": 52
+      },
+      "vo2Max": null
     }
   ]
 }
