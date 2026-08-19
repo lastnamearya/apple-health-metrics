@@ -319,6 +319,26 @@
         "minBpm": 54
       },
       "vo2Max": 33.88
+    },
+    {
+      "date": "2026-08-19",
+      "steps": 4085,
+      "hrvMs": 77,
+      "sleep": {
+        "inBedMinutes": 1353,
+        "asleepMinutes": 882,
+        "coreMinutes": 504,
+        "deepMinutes": 121,
+        "remMinutes": 257,
+        "awakeMinutes": 18,
+        "bedtime": "2026-08-19 01:12:00 +0530",
+        "wakeTime": "2026-08-19 08:45:25 +0530"
+      },
+      "restingHeartRate": {
+        "avgBpm": 53,
+        "minBpm": 53
+      },
+      "vo2Max": 34.18
     }
   ]
 }
