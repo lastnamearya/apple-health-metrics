@@ -342,21 +342,21 @@
     },
     {
       "date": "2026-08-20",
-      "steps": 10259,
-      "hrvMs": 60,
+      "steps": 22481,
+      "hrvMs": 59,
       "sleep": {
-        "inBedMinutes": 1003,
-        "asleepMinutes": 622,
-        "coreMinutes": 435,
-        "deepMinutes": 109,
-        "remMinutes": 78,
-        "awakeMinutes": 39,
-        "bedtime": "2026-08-19 23:45:00 +0530",
+        "inBedMinutes": 319,
+        "asleepMinutes": 309,
+        "coreMinutes": 219,
+        "deepMinutes": 50,
+        "remMinutes": 39,
+        "awakeMinutes": 10,
+        "bedtime": "2026-08-20 00:08:55 +0530",
         "wakeTime": "2026-08-20 05:28:10 +0530"
       },
       "restingHeartRate": {
-        "avgBpm": 55,
-        "minBpm": 55
+        "avgBpm": 56,
+        "minBpm": 56
       },
       "vo2Max": 34.54
     }

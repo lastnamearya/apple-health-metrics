@@ -261,7 +261,30 @@ export function parseHealthAutoExport(
         ensure(date).sleep = normalizeSleep(sample);
       }
 
-      for (const [date, stages] of buildSleepSessions(intervalSamples)) {
+      // Stage intervals aren't summed the way step counts are — two devices
+      // (e.g. Fitbit and Apple Watch) both tracking the same night write
+      // overlapping Core/Deep/REM/Awake intervals, and buildSleepSessions
+      // would add both up, roughly doubling every stage total. Prefer one
+      // source, same as every other multi-source metric above.
+      let relevantIntervalSamples = intervalSamples;
+      const intervalSources = new Set(intervalSamples.map((s) => s.source).filter(Boolean));
+      if (intervalSources.size > 1) {
+        const preferred = intervalSamples.filter((s) =>
+          normalizeDeviceName(s.source).includes(preferSource)
+        );
+        if (preferred.length) {
+          relevantIntervalSamples = preferred;
+          warnings.push(
+            `${metric.name}: ${intervalSources.size} sources present — used "${preferSource}" only, to avoid double-counting overlapping sleep stages.`
+          );
+        } else {
+          warnings.push(
+            `${metric.name}: ${intervalSources.size} sources present and none matched "${preferSource}" — sleep totals may be inflated.`
+          );
+        }
+      }
+
+      for (const [date, stages] of buildSleepSessions(relevantIntervalSamples)) {
         ensure(date).sleep = stages;
       }
       continue;
