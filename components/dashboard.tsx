@@ -39,6 +39,8 @@ export function Dashboard() {
 
   const vo2Series = days.filter((d) => d.vo2Max !== null);
   const recentVo2 = vo2Series.slice(-9);
+  const vo2PeakMax = Math.max(...vo2Series.map((d) => d.vo2Max!));
+  const vo2TroughMin = Math.min(...vo2Series.map((d) => d.vo2Max!));
   const avgVo2Last7 =
     recentVo2.length > 0
       ? (
@@ -126,6 +128,9 @@ export function Dashboard() {
                 value: d.vo2Max!,
               }))}
               unit="ml/kg/min"
+              peakMax={vo2PeakMax}
+              troughMin={vo2TroughMin}
+              yAxisDecimals={1}
             />
           </Panel>
         </div>

@@ -24,6 +24,9 @@ export function TrendChart({
   unit,
   color = "var(--color-flare)",
   height,
+  peakMax,
+  troughMin,
+  yAxisDecimals,
 }: {
   points: TrendPoint[];
   baseline?: number;
@@ -31,6 +34,14 @@ export function TrendChart({
   unit: string;
   color?: string;
   height?: number;
+  /** Pin the y-axis top to a known record high instead of padding above the
+   * visible series — makes the line reach the top of the chart. */
+  peakMax?: number;
+  /** Pin the y-axis bottom to a known record low instead of padding below the
+   * visible series. */
+  troughMin?: number;
+  /** Fix the number of decimal places shown on y-axis tick labels. */
+  yAxisDecimals?: number;
 }) {
   const resolvedHeight = height ?? 188;
   const values = points.map((p) => p.value);
@@ -80,8 +91,11 @@ export function TrendChart({
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 10, fill: "var(--color-ink-faint)" }}
-              domain={[Math.floor(lo - pad), Math.ceil(hi + pad)]}
+              domain={[troughMin ?? Math.floor(lo - pad), peakMax ?? Math.ceil(hi + pad)]}
               width={38}
+              tickFormatter={
+                yAxisDecimals != null ? (v: number) => v.toFixed(yAxisDecimals) : undefined
+              }
             />
             {baseline !== undefined && (
               <ReferenceLine

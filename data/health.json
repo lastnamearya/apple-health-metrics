@@ -322,8 +322,8 @@
     },
     {
       "date": "2026-08-19",
-      "steps": 4085,
-      "hrvMs": 77,
+      "steps": 13687,
+      "hrvMs": 72,
       "sleep": {
         "inBedMinutes": 1353,
         "asleepMinutes": 882,
@@ -339,6 +339,26 @@
         "minBpm": 53
       },
       "vo2Max": 34.18
+    },
+    {
+      "date": "2026-08-20",
+      "steps": 10259,
+      "hrvMs": 60,
+      "sleep": {
+        "inBedMinutes": 1003,
+        "asleepMinutes": 622,
+        "coreMinutes": 435,
+        "deepMinutes": 109,
+        "remMinutes": 78,
+        "awakeMinutes": 39,
+        "bedtime": "2026-08-19 23:45:00 +0530",
+        "wakeTime": "2026-08-20 05:28:10 +0530"
+      },
+      "restingHeartRate": {
+        "avgBpm": 55,
+        "minBpm": 55
+      },
+      "vo2Max": 34.54
     }
   ]
 }
