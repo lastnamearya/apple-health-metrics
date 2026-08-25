@@ -61,7 +61,7 @@ export function Dashboard() {
           Jigyasu · Health Metrics
         </p>
         <p className="font-mono text-[11px] text-ink-faint">
-          Day {dayIndex(todayIso())} of 21
+          Day {dayIndex(todayIso())}
         </p>
       </header>
 
@@ -90,19 +90,19 @@ export function Dashboard() {
                 value={formatHrv(
                   mean(
                     hrvSeries
-                      .slice(-7)
+                      .slice(-9)
                       .filter((d) => d.hrvMs !== null)
                       .map((d) => d.hrvMs!)
                   )
                 )}
                 unit="ms"
-                label="7-day avg"
+                label="9-day avg"
                 tone="flare"
               />
             }
           >
             <TrendChart
-              points={hrvSeries.slice(-7).map((d) => ({
+              points={hrvSeries.slice(-9).map((d) => ({
                 label: shortDate(d.date),
                 value: d.hrvMs!,
               }))}
