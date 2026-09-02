@@ -544,7 +544,7 @@
     },
     {
       "date": "2026-08-31",
-      "steps": 15185,
+      "steps": 16233,
       "hrvMs": 49,
       "sleep": {
         "inBedMinutes": 231,
@@ -561,6 +561,46 @@
         "minBpm": 58
       },
       "vo2Max": 36.19
+    },
+    {
+      "date": "2026-09-01",
+      "steps": 17592,
+      "hrvMs": 59,
+      "sleep": {
+        "inBedMinutes": 575,
+        "asleepMinutes": 518,
+        "coreMinutes": 332,
+        "deepMinutes": 52,
+        "remMinutes": 135,
+        "awakeMinutes": 57,
+        "bedtime": "2026-09-01 01:43:42 +0530",
+        "wakeTime": "2026-09-01 11:18:51 +0530"
+      },
+      "restingHeartRate": {
+        "avgBpm": 54,
+        "minBpm": 54
+      },
+      "vo2Max": 36.4
+    },
+    {
+      "date": "2026-09-02",
+      "steps": 20171,
+      "hrvMs": 55,
+      "sleep": {
+        "inBedMinutes": 450,
+        "asleepMinutes": 433,
+        "coreMinutes": 299,
+        "deepMinutes": 50,
+        "remMinutes": 83,
+        "awakeMinutes": 17,
+        "bedtime": "2026-09-02 05:30:01 +0530",
+        "wakeTime": "2026-09-02 12:59:58 +0530"
+      },
+      "restingHeartRate": {
+        "avgBpm": 58,
+        "minBpm": 58
+      },
+      "vo2Max": 36.75
     }
   ]
 }
